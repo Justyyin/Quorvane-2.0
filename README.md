@@ -1458,10 +1458,6 @@ English is the original language of the project. All translations of the documen
 
 Bugs, ideas and suggestions: write to me on Discord, @justyyin, or open an issue on GitHub.
 
-## Credits
-
-Quorvane is inspired by [Embed Generator](https://github.com/merlinfuchs/embed-generator) by Merlin Fuchs (MIT license, hosted at message.style). The message builder reads the same JSON format, so messages designed there can be posted with this bot. No code of that project is included. Thanks to the authors of discord.py, aiohttp, Pillow, yt-dlp, mutagen and Tesseract.
-
 ## License
 
 Released under the MIT License. See [LICENSE](LICENSE).
