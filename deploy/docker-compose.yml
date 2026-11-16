@@ -1,0 +1,13 @@
+services:
+  quorvane:
+    build:
+      context: ..
+      dockerfile: deploy/Dockerfile
+    restart: unless-stopped
+    env_file: ../.env
+    volumes:
+      - ../data:/app/data
+      - ../music:/app/music
+    # Dashboard: publish the port only on this computer, see the README
+    # ports:
+    #   - "127.0.0.1:8080:8080"

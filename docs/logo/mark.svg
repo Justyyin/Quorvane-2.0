@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Quorvane">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1b211c"/><stop offset="1" stop-color="#0b0e0c"/></linearGradient>
+    <linearGradient id="ring" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#a6e8c6"/><stop offset="1" stop-color="#4f9f7c"/></linearGradient>
+    <linearGradient id="vane" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f6ead9"/><stop offset="1" stop-color="#d9b98f"/></linearGradient>
+  </defs>
+  
+  <circle cx="244" cy="238" r="122" fill="none" stroke="url(#ring)" stroke-width="46" stroke-dasharray="690 76.5" transform="rotate(62.9 244 238)"/>
+  <path d="M266 260 L378 336 L434 428 L342 372 Z" fill="url(#vane)" stroke="url(#vane)" stroke-width="12" stroke-linejoin="round"/>
+  <circle cx="244" cy="238" r="30" fill="#f6ead9"/>
+</svg>

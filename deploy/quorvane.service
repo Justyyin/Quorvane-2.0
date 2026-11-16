@@ -1,0 +1,19 @@
+[Unit]
+Description=Quorvane Discord bot
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=quorvane
+WorkingDirectory=/opt/quorvane
+ExecStart=/opt/quorvane/.venv/bin/python main.py
+Restart=always
+RestartSec=5
+NoNewPrivileges=true
+ProtectSystem=full
+ProtectHome=true
+ReadWritePaths=/opt/quorvane/data /opt/quorvane/music
+
+[Install]
+WantedBy=multi-user.target

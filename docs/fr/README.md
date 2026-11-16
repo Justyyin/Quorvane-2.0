@@ -1,0 +1,1440 @@
+# Quorvane
+
+<p align="center"><img src="../logo/logo-512.png" width="128" alt="Quorvane logo"></p>
+
+[Deutsch](../de/README.md) | [English](../en/README.md) | **Français** | [Español](../es/README.md) | [Português](../pt/README.md) | [Русский](../ru/README.md) | [Українська](../uk/README.md) | [Svenska](../sv/README.md) | [Dansk](../da/README.md) | [中文](../zh/README.md) | [日本語](../ja/README.md) | [한국어](../ko/README.md)
+
+Bot Discord auto-hébergé pour la modération, la sécurité et la communauté. Open source, gratuit, et vos données restent sur votre propre machine.
+
+> Bêta : Quorvane et son tableau de bord sont en phase bêta. Ils n'ont pas été testés à fond, surtout pas sur de grands serveurs ni face à toutes les situations de Discord. Attendez-vous à des bugs, sauvegardez le dossier data et signalez les problèmes. Utilisation à vos risques.
+
+<p align="center"><img src="../img/overview.png" width="100%" alt="Dashboard overview with charts"></p>
+
+<!-- toc -->
+
+- [À propos](#à-propos)
+- [Fonctionnalités](#fonctionnalités)
+  - [Sécurité](#sécurité)
+  - [Modération](#modération)
+  - [Journalisation](#journalisation)
+  - [Communauté](#communauté)
+  - [Administration](#administration)
+- [État du projet](#état-du-projet)
+- [Prérequis](#prérequis)
+- [Démarrage rapide](#démarrage-rapide)
+  - [Linux](#linux)
+  - [macOS](#macos)
+  - [Windows](#windows)
+  - [Scripts de démarrage et démarrage automatique](#scripts-de-démarrage-et-démarrage-automatique)
+  - [Mise à jour](#mise-à-jour)
+- [Permissions du bot](#permissions-du-bot)
+- [Premiers pas sur Discord](#premiers-pas-sur-discord)
+  - [Structure, membres et équipe](#structure-membres-et-équipe)
+- [Tableau de bord](#tableau-de-bord)
+  - [Configurer le tableau de bord](#configurer-le-tableau-de-bord)
+  - [Commandes, skills, IA et profil du bot](#commandes-skills-ia-et-profil-du-bot)
+  - [Sécurité](#sécurité-1)
+  - [Tableau de bord sur un VPS](#tableau-de-bord-sur-un-vps)
+- [Commandes](#commandes)
+  - [Groupes de commandes](#groupes-de-commandes)
+  - [Modération](#modération-1)
+  - [Goulag (jail)](#goulag-jail)
+  - [Modération automatique](#modération-automatique)
+  - [Protection anti-raid et verrouillage](#protection-anti-raid-et-verrouillage)
+  - [Anti-nuke](#anti-nuke)
+  - [Vérification](#vérification)
+  - [Journalisation](#journalisation-1)
+  - [Bienvenue, au revoir et boosters](#bienvenue-au-revoir-et-boosters)
+  - [Tickets](#tickets)
+  - [Sondages et concours](#sondages-et-concours)
+  - [Suggestions et starboard](#suggestions-et-starboard)
+  - [XP et niveaux](#xp-et-niveaux)
+  - [Rôles par réaction et notifications](#rôles-par-réaction-et-notifications)
+  - [Anniversaires](#anniversaires)
+  - [Salons vocaux temporaires](#salons-vocaux-temporaires)
+  - [Sauvegarde et restauration](#sauvegarde-et-restauration)
+  - [Données et confidentialité](#données-et-confidentialité)
+  - [Outils de modération](#outils-de-modération)
+  - [Informations](#informations)
+  - [Annonces, tags et rappels](#annonces-tags-et-rappels)
+  - [Mod-mail et demandes de débannissement](#mod-mail-et-demandes-de-débannissement)
+  - [Salon de comptage, messages épinglés et statistiques](#salon-de-comptage-messages-épinglés-et-statistiques)
+  - [Autres options des fonctions existantes](#autres-options-des-fonctions-existantes)
+  - [Autres outils AutoMod](#autres-outils-automod)
+  - [Limites des modérateurs et audit des permissions](#limites-des-modérateurs-et-audit-des-permissions)
+  - [Signalements et suivi des invitations](#signalements-et-suivi-des-invitations)
+  - [Diagnostic et débogage](#diagnostic-et-débogage)
+  - [Musique](#musique)
+  - [Configuration et état de santé](#configuration-et-état-de-santé)
+  - [Économie](#économie)
+  - [Menus de rôles, messages programmés et flux](#menus-de-rôles-messages-programmés-et-flux)
+  - [Activité, actions groupées et recherche de cas](#activité-actions-groupées-et-recherche-de-cas)
+  - [Anti-arnaque et anti-crypto](#anti-arnaque-et-anti-crypto)
+  - [Période d'essai, détection d'essaim, chronologie et apprentissage](#période-dessai-détection-dessaim-chronologie-et-apprentissage)
+  - [Panneaux](#panneaux)
+  - [Skills et IA](#skills-et-ia)
+  - [Créateur de messages et mises à jour](#créateur-de-messages-et-mises-à-jour)
+  - [Exploitation](#exploitation)
+  - [Administration](#administration-1)
+- [Variables dans les messages](#variables-dans-les-messages)
+- [Configuration](#configuration)
+- [Données et stockage](#données-et-stockage)
+- [Structure du dépôt](#structure-du-dépôt)
+- [Traductions](#traductions)
+- [Feuille de route](#feuille-de-route)
+- [Confidentialité et sécurité](#confidentialité-et-sécurité)
+- [Assistance](#assistance)
+- [Crédits](#crédits)
+- [Licence](#licence)
+
+<!-- tocstop -->
+
+## À propos
+
+Quorvane regroupe des fonctions que beaucoup de serveurs paient chez des bots hébergés : modération, journalisation, anti-raid, anti-nuke, tickets, niveaux et plus encore. Vous l'exécutez vous-même, sur votre ordinateur ou sur un petit VPS.
+
+Les bots hébergés stockent les données du serveur, les identifiants des membres et parfois des adresses e-mail chez un tiers. Quand vous hébergez le bot vous-même, ces données ne quittent jamais votre machine. Quorvane veut montrer que n'importe qui peut faire fonctionner un bot complet sans abonnement.
+
+## Fonctionnalités
+
+### Sécurité
+
+- Modération automatique : filtre de mots, filtre de majuscules, spam de mentions, liens d'invitation, domaines de phishing, données personnelles, doxxing et menaces. Toutes les listes sont modifiables.
+- Anti-raid avec détection des vagues d'arrivées et verrouillage de tout le serveur.
+- Anti-nuke : limites pour les suppressions et bannissements en masse, réaction automatique et message privé au propriétaire du serveur.
+- Salon goulag : les membres qui publient des liens ou images d'arnaque sont déplacés dans un seul salon avec les étapes pour sécuriser leur compte. Les modérateurs peuvent aussi utiliser /moderation jail et /moderation unjail.
+- Vérification par bouton ou captcha, avec retrait automatique des membres qui ne se vérifient pas à temps.
+- L'anti-nuke surveille aussi l'attribution de permissions, les nouveaux webhooks, les bots ajoutés et les changements de nom du serveur.
+- Anti-arnaque : les faux concours et les arnaques crypto sont supprimés dans le texte et les images en quelques millisecondes, y compris l'arnaque MrBeast sous toutes ses orthographes.
+
+### Modération
+
+- Warn, mute, kick, ban et jail avec un historique filtrable par mention, ID utilisateur ou type.
+- Escalade automatique, par exemple trois avertissements entraînent une exclusion temporaire.
+- Choix des rôles ou utilisateurs autorisés pour chaque commande de modération.
+
+### Journalisation
+
+- Messages envoyés, modifiés et supprimés, y compris images, GIF et URL, avec des salons de logs séparés.
+- Changements de rôles, de pseudos, bannissements, vocal, salons et rôles du serveur.
+
+### Communauté
+
+- Messages de bienvenue et d'au revoir, rôles automatiques et récompenses pour les boosters.
+- Tickets, sondages, concours et suggestions.
+- Rôles par réaction avec n'importe quel emoji et thèmes de notification que les membres activent ou désactivent.
+- XP et niveaux de 1 à 100 pour le chat et le vocal, rôles de niveau et anniversaires.
+- Starboard et salons vocaux temporaires.
+- Jail avec durée, sondages à choix multiples, cartes de rang en image et boosts d'XP par rôle.
+- Économie avec boutique, menus de rôles avec boutons ou liste déroulante, messages programmés, flux YouTube, Twitch et RSS, statistiques d'activité et un /admin setup guidé. Les messages aux membres existent en 12 langues.
+
+### Administration
+
+- Chaque module et chaque commande peut être activé ou désactivé par serveur.
+- Préfixe personnalisé, alias de commandes et commandes renommables.
+- Sauvegarde et restauration des rôles et de la structure des salons.
+- Sauvegardes automatiques planifiées des rôles, salons, emojis et webhooks, avec une commande de restauration qui n'ajoute que ce qui manque.
+- Tableau de bord : modifier les réglages de chaque serveur dans le navigateur après une connexion Discord, uniquement pour les membres qui gèrent le serveur et seulement tant que le bot est connecté.
+- Skills : commandes, jeux et automatisations personnalisés à partir de blocs sûrs, éventuellement écrits par une IA avec ta propre clé (Anthropic, OpenAI, Kimi). Le tableau de bord liste toutes les commandes et modifie les skills, les réglages d'IA et le profil du bot.
+
+**Nouveau dans la 2.0**
+
+- Tableau de bord en verre avec un bouton clair/sombre, une page Journaux avec vue en direct, recherche, filtre par date et export CSV, une page Membres, les transcriptions de tickets conservées et des cas modifiables.
+- Assistant : l'équipe pose ses questions en langage courant dans Discord ou dans le tableau de bord. Il répond avec des outils en lecture seule, peut lire Railway, un dépôt GitHub et des adresses web si vous les connectez, et n'exécute une action qu'après confirmation par un bouton.
+- L'anti-arnaque supprime immédiatement les faux liens Discord et Steam, les liens IP logger, les codes QR qui y mènent et les images d'arnaque publiées sous forme de lien. L'action par défaut est le goulag, les copies dans d'autres salons sont supprimées et les serveurs de votre bot peuvent partager une liste de comptes pris.
+- Outils de salon : un fil sous chaque message, des salons réservés aux images et aux liens, la publication automatique des annonces et `/structure solved` pour les posts de forum.
+- Image de bienvenue, classement du temps en vocal avec `/info voicetop` et traduction avec `/support translate` ou par clic droit.
+- Une API en lecture seule avec un jeton, pour que d'autres programmes lisent les chiffres et les journaux d'un serveur.
+
+## État du projet
+
+Quorvane est jeune et n'a pas encore été utilisé sur de grands serveurs. Les tests automatiques (`python -m unittest`) couvrent le stockage, la détection des données personnelles, le calcul des niveaux, l'enregistrement des commandes, les contrôles de permissions et les liens de la documentation. Tout ce qui nécessite un vrai serveur Discord, comme le verrouillage, la restauration de sauvegarde, la vérification, l'anti-nuke et le goulag, n'est pas couvert. Essayez ces fonctions d'abord sur un serveur de test avant de vous y fier. Les traductions de la documentation n'ont pas été relues par des locuteurs natifs, les corrections sont les bienvenues.
+
+## Prérequis
+
+- Python 3.11 ou plus récent
+- Une application Discord avec un jeton de bot
+- Un ordinateur ou un VPS toujours en ligne
+- ffmpeg (seulement pour le module musique)
+- tesseract-ocr (facultatif, seulement pour lire le texte des images)
+
+## Démarrage rapide
+
+Choisissez votre système. Chaque variante nécessite Python 3.11 ou plus récent et le jeton de votre bot. Le guide détaillé étape par étape est dans [GUIDE.md](GUIDE.md).
+
+### Linux
+
+```bash
+sudo apt install -y python3 python3-venv python3-pip git ffmpeg tesseract-ocr
+git clone https://github.com/Justyyin/Quorvane-2.0.git
+cd quorvane
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+cp .env.example .env
+nano .env
+python main.py
+```
+
+### macOS
+
+```bash
+brew install python@3.12 git ffmpeg tesseract
+git clone https://github.com/Justyyin/Quorvane-2.0.git
+cd quorvane
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+cp .env.example .env
+open -e .env
+python main.py
+```
+
+### Windows
+
+```powershell
+winget install Python.Python.3.12 Git.Git Gyan.FFmpeg UB-Mannheim.TesseractOCR
+git clone https://github.com/Justyyin/Quorvane-2.0.git
+cd quorvane
+py -3 -m venv .venv
+.venv\Scripts\Activate.ps1
+pip install -r requirements.txt
+copy .env.example .env
+notepad .env
+python main.py
+```
+
+### Scripts de démarrage et démarrage automatique
+
+Les scripts de démarrage créent l'environnement virtuel, installent les paquets et lancent le bot. Au premier lancement, ils créent le fichier .env et s'arrêtent pour que vous puissiez saisir le jeton. Relancez-les ensuite.
+
+```bash
+./start.sh
+```
+
+```bat
+start.bat
+```
+
+Pour que le bot continue de tourner après un redémarrage de l'ordinateur, utilisez un service. Linux (systemd) et macOS (launchd) :
+
+```bash
+sudo cp deploy/quorvane.service /etc/systemd/system/
+sudo systemctl enable --now quorvane
+journalctl -u quorvane -f
+```
+
+```bash
+cp deploy/de.quorvane.plist ~/Library/LaunchAgents/de.quorvane.plist
+launchctl load ~/Library/LaunchAgents/de.quorvane.plist
+```
+
+Sous Windows, créez une tâche dans le Planificateur de tâches qui lance start.bat à l'ouverture de session, ou utilisez un outil de service comme NSSM. Pour Docker, voir [GUIDE.md](GUIDE.md).
+
+### Mise à jour
+
+Arrêtez le bot, exécutez ces commandes et relancez-le. Vos données dans le dossier data restent intactes, et le bot fait une sauvegarde de la base avant chaque changement de format.
+
+```bash
+git pull
+.venv/bin/pip install -r requirements.txt
+```
+
+## Permissions du bot
+
+Le plus simple est la permission Administrateur. Si vous préférez des droits minimaux, accordez ceux-ci et activez les intents Server Members et Message Content dans le Developer Portal :
+
+```
+Basics
+  View Channels, Send Messages, Embed Links, Attach Files, Read Message History, Add Reactions
+Moderation
+  Moderate Members (timeouts), Kick Members, Ban Members, Manage Messages
+Roles and channels
+  Manage Roles, Manage Channels (gulag, lockdown, verification, tickets, backup)
+Optional
+  View Audit Log (who did what in logs and anti-nuke), Move Members, Manage Webhooks, Create Expressions
+```
+
+## Premiers pas sur Discord
+
+Une configuration de départ raisonnable. Exécutez ces commandes sur votre serveur et remplacez les salons et les rôles par les vôtres :
+
+```
+/server log set category:main channel:#logs
+/access jailsetup setup
+/automod toggle rule:phishing enabled:True action:jail
+/automod toggle rule:words enabled:True
+/automod add name:words value:example
+/security raid setup enabled:True joins:5 seconds:10 action:timeout min_age_days:3
+/security antinuke setup enabled:True action:strip
+/access verify setup channel:#verify mode:captcha timeout_minutes:30
+/community welcome set channel:#welcome message:Welcome {user} to {server}!
+/server backup schedule enabled:True interval_hours:24 keep:7
+/xp config enabled:True
+/admin module list
+```
+
+### Structure, membres et équipe
+
+La version 1.5 ajoute des commandes pour construire et garder un serveur en ordre, restaurer les membres qui reviennent et diriger l'équipe de modération. Chaque partie a un interrupteur de module (`/admin module`), ses propres réglages et une place dans le tableau de bord.
+
+```
+/structure channel create name:news kind:text category:Info private:False
+/structure channel clone channel:#news name:news-2
+/structure channel rename channel:#news name:announcements
+/structure channel move channel:#news category:Info position:1
+/structure channel sort category:Info
+/structure channel copyperms source:#news target:#rules whole_category:False
+/structure category create name:Events private:False
+/structure category clone category:Events name:Events 2
+/structure category sort
+/structure category sync category:Events
+/structure archive setup action:report days:60 report_channel:#staff interval_hours:24
+/structure archive ignore channel:#news
+/structure archive scan action:report
+/structure temprole give member:@User role:@Event duration:7d reason:Contest
+/structure temprole list
+/structure roletemplate save name:mod role:@Moderator
+/structure roletemplate apply name:mod role_name:Trial Mod
+/structure rules setup channel:#rules role:@Member remind:True remind_hours:24
+/structure rules add text:Be kind to each other.
+/structure rules post new_version:True
+/structure rules status
+
+/members stickyroles setup roles:True days:30 punishments:True dangerous:False
+/members stickyroles status
+/members stickyroles forget user:@User
+/members nickname setup dehoist:True usernames:True rename_to:Renamed notify:True
+/members nickname word word:badword
+/members nickname check name:!!hoisted
+/members nickname scan
+/members watch setup channel:#staff ping_role:@Moderator repeat:False
+/members watch add user:@User reason:Suspicious
+/members watch list
+/members reason add name:spam action:mute text:Spam duration:1h
+/members reason use name:spam user:@User
+
+/security approval setup channel:#staff role:@Moderator ban:True bulk:True minutes:30 owner_bypass:True
+/security approval list
+/security approval cancel request_id:3
+/moderation case undo case_id:12 reason:Mistake follow:True batch:False
+/moderation escalation expiry days:90
+
+/admin history list
+/admin history show number:5
+/admin history rollback number:5 section:welcome
+/admin history keep count:200
+/admin history copy source:123456789012345678 sections:welcome,tickets dry_run:True
+/admin exceptions add rule:invites channel:#media role:@Artist
+/admin exceptions list
+/admin dashaccess add role:@Helper level:viewer
+/admin dashaccess list
+
+/team teamstats overview days:30
+/team teamstats member user:@User
+/team teamstats inactive days:14
+/team weekly setup channel:#staff day:Monday hour:9
+/team weekly now days:7
+/team duty away duration:3d reason:Holiday
+/team duty back
+/team duty route feature:tickets enabled:True
+/team duty roster role:@Moderator
+/team apply setup channel:#applications staff_role:@Moderator accept_role:@Trial votes:3 open:True cooldown_days:30
+/team apply question action:add text:Why do you want to join?
+/team apply start
+/team apply list
+/team apply decide number:4 decision:accept
+```
+
+- `/structure` crée, clone, renomme et trie les salons et catégories et copie les permissions d'un autre salon. Les salons inactifs sont signalés ou déplacés dans une catégorie d'archives (`/structure archive`). Les rôles peuvent être donnés pour une durée limitée et enregistrés comme modèles ; un modèle n'accorde jamais une permission que la personne qui l'applique n'a pas.
+- `/structure rules` publie le règlement avec un bouton d'acceptation et un numéro de version. Après `post new_version:True`, les membres qui n'ont pas accepté la nouvelle version reçoivent un seul rappel par message privé.
+- `/members stickyroles` rend les rôles et rétablit un timeout ou un mute quand un membre revient. `/members nickname` retire les caractères de tête qui font monter dans la liste, vérifie les mots interdits dans les pseudos et noms d'utilisateur et renomme les contrevenants. La liste de surveillance est silencieuse : l'équipe est alertée au premier message d'un utilisateur listé.
+- L'approbation à quatre yeux (`/security approval`) n'exécute les bans, kicks, timeouts et actions groupées qu'après l'accord d'un second modérateur. `/moderation case undo` annule un dossier, y compris les actions qui en ont découlé (par exemple un mute et le ban qui a suivi). Les avertissements peuvent expirer après un nombre de jours (`/moderation escalation expiry`).
+- `/admin history` montre qui a changé quel réglage et quand, et restaure une section. Le nom de la personne est une supposition tirée des dernières commandes et modifications du tableau de bord sur le serveur. `/admin history copy` copie des sections vers un autre serveur que vous pouvez gérer avec le bot ; il commence en simulation. `/admin exceptions` exclut des salons et des rôles des règles AutoMod et de l'Anti-Scam. `/admin dashaccess` donne à des rôles un accès en lecture seule ou modérateur au tableau de bord.
+- `/team` montre le travail de chaque modérateur (dossiers, tickets, signalements, temps de réaction, membres inactifs), publie un rapport hebdomadaire (jour et heure en UTC), permet aux modérateurs de s'absenter avec `/team duty away` pour que tickets et mentions aillent à d'autres, et gère les candidatures au staff avec formulaire et vote de l'équipe.
+- Discord ne peut pas masquer les commandes d'un groupe à certains membres. Le bot vérifie quand même chaque appel. Les chiffres des statistiques d'équipe sont comptés depuis le jour de la mise à jour ; les actions plus anciennes manquent.
+
+## Tableau de bord
+
+<table>
+  <tr><td width="50%"><img src="../img/plugins.png" alt="Plugins with switches"></td><td width="50%"><img src="../img/logs.png" alt="Logs page with live view, dark"></td></tr>
+  <tr><td width="50%"><img src="../img/assistant.png" alt="Assistant page, dark"></td><td width="50%"><img src="../img/appearance.png" alt="Dashboard appearance and glass settings"></td></tr>
+  <tr><td width="50%"><img src="../img/antiscam.png" alt="Anti-scam settings"></td><td width="50%"><img src="../img/transcript.png" alt="Ticket transcript as one HTML file"></td></tr>
+</table>
+
+<p align="center"><img src="../img/mobile.png" width="300" alt="Dashboard on a phone, dark"></p>
+
+<p align="center"><a href="../SCREENSHOTS.md">Screenshots: 15 pages, 64 plugins</a></p>
+
+Le tableau de bord est une page web qui s'exécute dans le bot. Après connexion avec Discord, vous modifiez les réglages de vos serveurs avec des interrupteurs, des menus et des champs au lieu de commandes : modules, salons, rôles, seuils, textes, préfixe et langue. Il affiche aussi les derniers cas de modération et exporte et importe les réglages. Il fonctionne de la même façon sur votre ordinateur et sur un VPS, et reste désactivé tant que vous ne l'activez pas.
+
+### Configurer le tableau de bord
+
+1. Ouvrez votre application dans le Developer Portal, allez dans OAuth2 et copiez le Client Secret dans le fichier .env.
+2. Sur la même page, ajoutez l'adresse de redirection http://localhost:8080/callback.
+3. Activez le tableau de bord dans settings.json.
+4. Redémarrez le bot et ouvrez http://localhost:8080 dans votre navigateur. Connectez-vous avec Discord.
+
+```
+DISCORD_TOKEN=your-bot-token
+DISCORD_CLIENT_SECRET=your-oauth2-client-secret
+```
+
+```json
+{
+  "dashboard": {
+    "enabled": true,
+    "host": "127.0.0.1",
+    "port": 8080,
+    "public_url": "http://localhost:8080"
+  }
+}
+```
+
+### Commandes, skills, IA et profil du bot
+
+Le tableau de bord a cinq pages de plus : Panels (voir la section Panneaux) et les quatre suivantes. Commandes liste chaque commande slash, commande à préfixe et menu contextuel avec son module, la permission requise et son état ; les administrateurs les activent ou les désactivent, autorisent ou interdisent des rôles et donnent des noms courts aux commandes à préfixe. Le préfixe se change sur la même page. Skills affiche tous les skills et les modifie en JSON avec les mêmes contrôles que les commandes. IA règle le modèle et les limites et enregistre une clé (écriture seule, elle n'est jamais renvoyée à la page). Profil du bot change le nom, l'image, la bannière et le texte de présentation du bot sur ce serveur ; le propriétaire de l'application du bot, ou un ID listé dans `owner_ids` de settings.json, peut aussi les changer partout. Discord limite la fréquence des changements de nom et d'image. Chaque modification est écrite dans le journal d'audit.
+
+Chaque module apparaît comme un plugin : la page Plugins les affiche sous forme de cartes par catégorie, et chaque plugin a sa propre page avec l'interrupteur Actif, ses réglages dans des encadrés repliables et ses commandes avec un interrupteur et un éditeur de rôles. La barre de gauche liste les plugins par catégorie, avec un point qui indique s'ils sont activés. Le tableau de bord utilise un thème sombre.
+
+Le tableau de bord peut s'afficher dans les 12 langues du bot. Choisis la langue en haut à droite ou sur la page de connexion ; le choix est conservé dans le navigateur et ne change pas la langue du serveur. Les textes du tableau de bord sont traduits automatiquement.
+
+Chaque page de plugin explique ce que fait le plugin, liste toutes ses fonctions avec leur propre interrupteur et une courte explication, et garde les autres réglages dans des encadrés en dessous. Sur la page Plugins et l'aperçu, chaque plugin s'active ou se désactive directement. Dans Réglages, l'encadré Apparence du tableau de bord change la couleur d'accent, l'arrière-plan, les encadrés et le texte, définit un fond d'écran (assombri et flouté au choix) et ajoute des menus et onglets personnels à la barre latérale : un onglet peut regrouper des plugins choisis, ouvrir une page, renvoyer vers une adresse https ou afficher une note. L'apparence est enregistrée par serveur et visible par tous ceux qui ouvrent son tableau de bord. Le pied de page affiche le copyright et des liens vers Discord et GitHub ; pour y afficher les logos officiels, place discord.svg et github.svg issus des pages de marque de Discord et GitHub dans quorvane/web/brand/.
+
+### Sécurité
+
+- Connexion uniquement avec Discord (OAuth2, portée identify). Le jeton d'accès est révoqué aussitôt et jamais stocké.
+- Seuls le propriétaire d'un serveur et les membres ayant la permission Administrateur ou Gérer le serveur ont accès, et uniquement à ce serveur. La permission est revérifiée à chaque requête.
+- Seuls les serveurs auxquels le bot est connecté à cet instant peuvent être ouverts. Si le bot est hors ligne, absent du serveur ou en cours de démarrage, le tableau de bord refuse tout. Il s'exécute dans le bot et n'a ni base de données ni service propre.
+- Par défaut, il n'écoute que sur 127.0.0.1, donc personne d'autre sur le réseau ne peut l'atteindre. Une adresse publique n'est acceptée qu'avec HTTPS, sinon le tableau de bord ne démarre pas.
+- Les sessions utilisent un jeton aléatoire dans un cookie HttpOnly avec SameSite et, sous HTTPS, le préfixe __Host-. Elles expirent après 8 heures et n'existent qu'en mémoire : un redémarrage déconnecte tout le monde.
+- Chaque modification exige un jeton CSRF et une origine correspondante. L'en-tête Host est vérifié contre le DNS rebinding. La page ne charge aucun script externe, une Content Security Policy stricte bloque le code en ligne, les requêtes sont limitées en débit et les corps à 256 Ko.
+- Chaque valeur est vérifiée selon le type du réglage et les ID Discord doivent exister sur le serveur. L'état interne (compteurs, tickets, éléments enregistrés) n'est pas modifiable. Chaque changement est écrit dans le salon de logs de sécurité du serveur.
+- Le contenu des messages n'est jamais affiché. Les cas de modération sont en lecture seule.
+
+### Tableau de bord sur un VPS
+
+Laissez host sur 127.0.0.1 et choisissez l'une des deux méthodes. D'abord un tunnel SSH : rien n'est exposé, vous ouvrez http://localhost:8080 sur votre ordinateur tant que le tunnel est actif.
+
+```bash
+ssh -L 8080:127.0.0.1:8080 user@your-server
+```
+
+Ensuite HTTPS via un reverse proxy comme Caddy, qui obtient seul un certificat (voir deploy/Caddyfile.example). Réglez alors public_url sur votre adresse https, ajoutez https://votre-adresse/callback comme redirection dans le Developer Portal et mettez trust_proxy sur true :
+
+```
+dashboard.example.com {
+	reverse_proxy 127.0.0.1:8080
+}
+```
+
+```json
+{
+  "dashboard": {
+    "enabled": true,
+    "host": "127.0.0.1",
+    "port": 8080,
+    "public_url": "https://dashboard.example.com",
+    "trust_proxy": true
+  }
+}
+```
+
+L'éditeur affiche chaque réglage qui est un interrupteur, un nombre, un texte, un salon, un rôle ou une liste simple. Ce qui se crée par commandes (articles de boutique, menus de rôles, flux, tags, tickets) reste des commandes. La page existe en anglais et en allemand et suit la langue du navigateur. Avec Docker, publiez le port uniquement sur 127.0.0.1 (127.0.0.1:8080:8080), puis mettez host sur 0.0.0.0 et allow_insecure_http sur true dans le conteneur.
+
+## Commandes
+
+La plupart des commandes sont des commandes slash, les commandes de modération fonctionnent aussi avec un préfixe. La liste complète se trouve dans la référence des commandes : [COMMANDS.md](../COMMANDS.md).
+
+<!-- groups -->
+### Groupes de commandes
+
+Pour économiser des emplacements de commandes slash (Discord autorise 100 commandes de premier niveau par bot), les commandes liées sont regroupées. Saisissez d'abord le groupe, puis la commande, par exemple `/moderation ban`. Les commandes texte avec préfixe, par exemple `!ban`, ne changent pas. Les droits, alias et interrupteurs de module utilisent toujours le nom simple de la commande.
+
+| Groupe | Contient |
+| --- | --- |
+| `/moderation` | `warn`, `unwarn`, `warnings`, `clearwarns`, `note`, `mute`, `unmute`, `kick`, `ban`, `unban`, `tempban`, `jail`, `unjail`, `jailed`, `role`, `case`, `cases`, `bulk`, `escalation`, `purge`, `slowmode` |
+| `/security` | `antinuke`, `antiscam`, `raid`, `block`, `unblock`, `blocklist`, `approval` |
+| `/access` | `verify`, `probation`, `lockdown`, `lockdownconfig`, `unlock`, `lockchannel`, `unlockchannel`, `jailsetup` |
+| `/server` | `log`, `backup`, `privacy`, `invites`, `stats`, `serverinfo`, `roleinfo`, `health`, `diagnose`, `debug` |
+| `/admin` | `settings`, `config`, `module`, `command`, `perms`, `alias`, `prefix`, `language`, `setup`, `history`, `exceptions`, `dashaccess` |
+| `/info` | `about`, `avatar`, `botinfo`, `ping`, `userinfo`, `mydata`, `leaderboard`, `rank`, `find` |
+| `/community` | `welcome`, `booster`, `afk`, `remind`, `activity`, `tempvoice`, `voice` |
+| `/engage` | `economy`, `giveaway`, `poll`, `counting`, `starboard` |
+| `/support` | `ticket`, `suggest`, `tag`, `autoresponder` |
+| `/members` | `stickyroles`, `nickname`, `watch`, `reason` |
+| `/structure` | `channel`, `category`, `archive`, `temprole`, `roletemplate`, `rules` |
+| `/team` | `teamstats`, `weekly`, `duty`, `apply`, `modwatch`, `permaudit` |
+| `/post` | `say`, `embed`, `message`, `sticky`, `schedule`, `feed`, `reactionrole`, `rolemenu` |
+| | `/help`, `/play`, `/automod`, `/music`, `/xp`, `/modmail`, `/appeal`, `/report`, `/suggestion`, `/birthday`, `/notify` |
+
+### Modération
+
+Avertissements, mutes, expulsions et bannissements fonctionnent en commandes slash et avec le préfixe, par exemple `!warn @User spam`. Chaque action crée un cas numéroté.
+
+```
+/moderation warn member:@User reason:Spam                    # also: !warn @User Spam
+/moderation unwarn case_id:12                                 # remove one warning
+/moderation clearwarns user:@User                             # remove all active warnings
+/moderation mute member:@User duration:30m reason:Spam        # also: !mute @User 30m Spam
+/moderation unmute member:@User
+/moderation kick member:@User reason:Advertising
+/moderation ban user:@User reason:Raid                        # user can also be an ID
+/moderation unban user:123456789012345678
+
+/moderation cases user:@User                                  # history, filter by mention or ID
+/moderation cases kind:ban page:2                             # filter by type
+/moderation cases search:john                                 # filter by part of a name
+/moderation warnings user:@User
+/moderation case view case_id:12
+
+/moderation escalation list
+/moderation escalation set warns:3 action:timeout minutes:60  # 3 warnings = 1 hour timeout
+/moderation escalation set warns:5 action:kick
+/moderation escalation set warns:7 action:ban                 # actions: timeout, kick, ban, jail
+/moderation escalation remove warns:5
+```
+
+### Goulag (jail)
+
+Les membres au compte piraté sont déplacés dans un seul salon avec des consignes de sécurité. Leurs anciens rôles sont rendus à la libération.
+
+```
+/access jailsetup setup role:@Gulag channel:#gulag staff_role:@Moderator   # empty options are created for you
+/access jailsetup apply                                   # apply the channel permissions again
+/access jailsetup notice text:Custom text for {staff}     # empty text restores the security steps
+/access jailsetup preview
+/access jailsetup reminder notice:True reminder:True minutes:10 requests:True word:unban
+
+/moderation jail member:@User reason:Hacked account           # also: !jail @User Hacked account
+/moderation jail member:@User duration:2h                     # released automatically after 2 hours
+/moderation unjail member:@User reason:Account secured
+```
+
+Toute personne envoyée au goulag, par commande, par l'AutoMod, par l'anti-scam, en revenant sur le serveur ou parce que quelqu'un a donné le rôle à la main, reçoit l'avis Account Security Required avec une mention. Tant que quelqu'un est au goulag, un Account Recovery Reminder reste en bas du salon et est renouvelé toutes les 10 minutes. Un membre au goulag qui écrit le préfixe suivi du mot de libération (par exemple `!unban`) dans le salon du goulag crée une demande de libération avec les boutons Release et Keep pour l'équipe ; le bot ne libère jamais personne de lui-même. `/access jailsetup reminder` active ou désactive chaque partie et règle l'intervalle et le mot.
+
+### Modération automatique
+
+Les règles suppriment ou sanctionnent les messages concernés. Choisissez l'action par règle : log, delete, warn, timeout ou jail.
+
+```
+/automod toggle rule:words enabled:True action:delete
+/automod toggle rule:phishing enabled:True action:jail
+/automod toggle rule:pii enabled:True action:delete
+# rules: words, caps, mentions, invites, phishing, pii, doxxing, threats
+# actions: log, delete, warn, timeout, jail
+
+/automod add name:words value:badword              # lists: words, phishing, phishing_allow,
+/automod remove name:words value:badword           #        invites_allow, doxxing, threats
+/automod show name:phishing
+/automod import name:phishing file:<upload a .txt, one entry per line>
+
+/automod set rule:caps option:percent value:80
+/automod set rule:caps option:min_len value:15
+/automod set rule:mentions option:max value:5
+/automod set rule:phishing option:lookalike value:True
+
+/automod channel channel:#media images:True videos:True links:False
+/automod channel links:True                        # no channel = all channels without own rule
+/automod unchannel channel:#media
+
+/automod block kind:link value:evil.example
+/automod block kind:message value:free nitro
+/automod block kind:image image:<upload a picture>
+/automod blocklist
+/automod unblock kind:link number:1
+
+/automod flood enabled:True count:5 seconds:5 timeout:10
+/automod exemptrole role:@Moderator
+/automod exemptchannel channel:#bot-commands
+```
+
+### Protection anti-raid et verrouillage
+
+Détecte de nombreuses arrivées en peu de temps et peut verrouiller le serveur. Le mode channels modifie chaque salon, le mode role agit immédiatement.
+
+```
+/security raid setup enabled:True joins:5 seconds:10 action:timeout min_age_days:3 lockdown:True
+# 5 joins within 10 seconds count as a raid, accounts younger than 3 days are punished,
+# actions: alert, timeout, kick
+
+/access lockdown mode:role reason:Raid                    # instant, edits only the @everyone role
+/access lockdown mode:channels reason:Raid                # thorough, edits every channel
+/access unlock
+
+/access lockdownconfig mode mode:role                     # default mode
+/access lockdownconfig lockrole role:@Member              # extra role locked in role mode
+/access lockdownconfig bypassrole role:@Moderator         # can still write in channels mode
+/access lockdownconfig exempt channel:#announcements
+```
+
+### Anti-nuke
+
+Surveille le journal d'audit et réagit quand quelqu'un détruit le serveur. Le propriétaire reçoit un message privé.
+
+```
+/security antinuke setup enabled:True action:strip notify_owner:True   # actions: alert, strip, kick, ban
+/security antinuke limit kind:channel_delete count:3 seconds:10
+# kinds: channel_delete, role_delete, channel_create, ban, kick,
+#        role_perm, role_grant, webhook_create, bot_add, guild_update
+/security antinuke whitelist user:@TrustedAdmin             # toggle, never checked
+/security antinuke staffrole role:@Moderator                # toggle, shown in alerts
+/security antinuke servername name:MyServer                 # extra name for the nuke talk detection
+/security antinuke newbots kick:True                        # kick bots added by untrusted users
+/security antinuke restore member:@User                     # give back roles that were removed
+/security antinuke status
+```
+
+### Vérification
+
+Les nouveaux membres ne voient que le salon de vérification jusqu'à ce qu'ils appuient sur le bouton ou résolvent le captcha.
+
+```
+/access verify setup channel:#verify mode:captcha timeout_minutes:30 min_account_age_days:3
+# modes: button, captcha (image), math; roles are created if you do not pass them
+/access verify setup channel:#verify verified_role:@Member unverified_role:@Unverified
+/access verify panel channel:#verify                      # post the button again
+/access verify apply                                      # apply the channel permissions again
+/access verify member member:@User                        # verify someone manually
+/access verify off
+```
+
+### Journalisation
+
+Choisissez un salon par catégorie, ou un salon principal pour tout.
+
+```
+/server log set category:main channel:#logs               # fallback for every category
+/server log set category:messages channel:#log-messages
+/server log set category:moderation channel:#log-moderation
+/server log set category:security channel:#log-security
+# categories: main, messages, members, voice, server, moderation, security
+/server log sent enabled:False                            # stop logging every sent message
+/server log show
+```
+
+### Bienvenue, au revoir et boosters
+
+Messages, rôles automatiques et récompenses pour les boosters du serveur.
+
+```
+/community welcome set channel:#welcome message:Welcome {user} to {server}! dm:Please read the rules.
+/community welcome set goodbye_channel:#goodbye goodbye_message:{name} left the server.
+/community welcome autorole role:@Member                     # toggle, given to every new member
+/community welcome botrole role:@Bots                        # toggle, given to every new bot
+/community welcome test
+
+/community booster set channel:#boosts message:Thank you {user}! remove_on_stop:True
+/community booster role role:@Booster                        # toggle
+```
+
+### Tickets
+
+Les membres ouvrent des salons privés avec un bouton. La fermeture envoie une transcription.
+
+```
+/support ticket setup category:Tickets support_role:@Support log_channel:#ticket-logs max_open:1
+/support ticket addtype key:report label:Report description:Report a member
+/support ticket removetype key:report
+/support ticket panel channel:#support title:Support description:Press a button to open a ticket
+
+# inside a ticket
+/support ticket add member:@User
+/support ticket remove member:@User
+/support ticket close
+```
+
+### Sondages et concours
+
+Des boutons pour voter et participer. Les durées acceptent des valeurs comme 30m, 2h et 1d.
+
+```
+/engage poll create question:Best game? options:Chess; Go; Poker duration:1d multiple:True
+/engage poll end poll_id:3
+/engage poll list
+
+/engage giveaway start prize:Nitro duration:2d winners:2 role:@Member
+/engage giveaway end giveaway_id:1
+/engage giveaway reroll giveaway_id:1
+/engage giveaway list
+```
+
+### Suggestions et starboard
+
+Les membres postent des suggestions que l'équipe peut accepter ou refuser, et les messages populaires sont mis en avant.
+
+```
+/suggestion setup set channel:#suggestions review_role:@Staff
+/support suggest text:Add a music channel                  # also: !suggest Add a music channel
+/suggestion status suggestion_id:4 status:approved reason:Planned for next month
+# status: approved, denied, considering, implemented
+
+/engage starboard setup channel:#starboard emoji:<any emoji> threshold:3 self_star:False
+/engage starboard ignore channel:#spam
+```
+
+### XP et niveaux
+
+XP pour le chat et le vocal, rôles de niveau, boosts par rôle et cartes de rang.
+
+```
+/xp config enabled:True min_xp:15 max_xp:25 cooldown:60 voice_xp:10 multiplier:1.5
+/xp config max_level:100 stack_roles:True card:True
+/xp config announce:channel announce_channel:#levels message:{user} reached level {level}!
+/xp show
+/xp boost role:@Booster multiplier:1.5             # 1.0 removes the boost
+/xp ignore channel:#spam                           # toggle
+
+/xp levelrole add level:10 role:@Active
+/xp levelrole add level:50 role:@Veteran
+/xp levelrole remove level:10
+/xp levelrole list
+/xp levelrole sync                                    # apply to everyone who already has XP
+
+/xp give user:@User amount:500
+/xp take user:@User amount:100
+/xp setlevel user:@User level:20
+/xp reset user:@User
+
+/info rank                                              # also: !rank, shows a rank card image
+/info rank user:@User
+/info leaderboard
+```
+
+### Rôles par réaction et notifications
+
+Donnez des rôles avec n'importe quel emoji et laissez les membres choisir leurs thèmes de notification.
+
+```
+/post reactionrole panel channel:#roles title:Pick your roles description:React below
+/post reactionrole add message:<message link> emoji:<any emoji> role:@Gamer
+/post reactionrole add message:<message link> emoji:<any emoji> role:@Artist mode:unique
+# mode unique: only one role of that message at a time
+/post reactionrole remove message:<message link> emoji:<any emoji>
+/post reactionrole list
+
+/notify topic add key:events role:@Events description:Server events
+/notify topic panel channel:#roles title:Notifications   # one button per topic
+/notify topic remove key:events
+/notify subscribe topic:events                     # members choose for themselves
+/notify unsubscribe topic:events
+/notify list
+```
+
+### Anniversaires
+
+Les membres indiquent le jour et le mois, le bot donne un rôle et poste un message le jour J.
+
+```
+/birthday setup set enabled:True role:@Birthday channel:#birthdays timezone:Europe/Berlin
+/birthday setup set message:Happy birthday {user}!
+
+/birthday set day:14 month:3                       # members enter day and month only
+/birthday show user:@User
+/birthday upcoming
+/birthday remove
+```
+
+### Salons vocaux temporaires
+
+Rejoindre le salon hub crée une salle qui disparaît quand elle est vide.
+
+```
+/community tempvoice setup hub:#Join-to-create category:Voice name:{name}'s room limit:0
+# joining the hub creates a room for the member, empty rooms are deleted
+```
+
+### Sauvegarde et restauration
+
+Les sauvegardes contiennent rôles, salons, emojis, webhooks et rôles des membres. La restauration n'ajoute que ce qui manque.
+
+```
+/server backup create name:before-update
+/server backup schedule enabled:True interval_hours:24 keep:7 include_members:True include_emojis:True
+/server backup list
+/server backup download name:before-update
+/server backup restore name:before-update member_roles:True   # only adds what is missing
+/server backup delete name:before-update
+```
+
+### Données et confidentialité
+
+Les membres peuvent exporter et supprimer leurs données. Les administrateurs règlent la durée de conservation.
+
+```
+/info mydata export                                     # members download their own data
+/info mydata delete confirm:True                        # members delete their XP and birthday
+
+/server privacy retention days:90                         # delete data of members who left after 90 days
+/server privacy export user_id:123456789012345678
+/server privacy delete user_id:123456789012345678 cases:True
+```
+
+### Outils de modération
+
+Nettoyer les salons, gérer les rôles et garder des notes privées. Chaque action est journalisée.
+
+```
+/moderation purge amount:50 user:@User kind:links           # kind: all, links, images, bots, attachments
+/moderation slowmode seconds:10 channel:#general              # 0 turns it off
+/access lockchannel channel:#general reason:Spam wave
+/access unlockchannel channel:#general
+
+/moderation role add member:@User role:@Member
+/moderation role remove member:@User role:@Member
+
+/moderation note user:@User text:Watch this member            # private, shown in /moderation cases
+/moderation tempban user:@User duration:7d reason:Spam        # unbanned automatically
+/moderation jailed                                            # who is in the gulag right now
+
+/moderation case view case_id:12
+/moderation case edit case_id:12 reason:Corrected reason
+/moderation case delete case_id:12
+```
+
+### Informations
+
+Consulter les utilisateurs, le serveur, les rôles et le bot.
+
+```
+/info userinfo user:@User
+/server serverinfo
+/server roleinfo role:@Moderator
+/info avatar user:@User
+/help command:ban                                  # explains one command
+/info ping
+/info botinfo
+```
+
+### Annonces, tags et rappels
+
+Écrire au nom du bot, créer des commandes personnalisées, répondre automatiquement aux messages et définir des rappels.
+
+```
+/post say channel:#news message:Maintenance tonight
+/post embed channel:#news title:Update description:New rules color:#5865F2
+
+/support tag create name:rules text:Be kind to each other
+/support tag show name:rules
+/support tag list
+/support tag info name:rules
+/support tag edit name:rules text:Be kind and read the pinned message
+/support tag delete name:rules
+
+/support autoresponder add trigger:server ip response:The IP is in #info mode:contains cooldown:30
+/support autoresponder list
+/support autoresponder remove id:1                         # mode: contains, word, exact, startswith
+
+/community remind set duration:2h text:Stream starts
+/community remind list
+/community remind cancel id:1
+/community afk reason:Lunch                                  # the bot tells others who mention you
+```
+
+### Mod-mail et demandes de débannissement
+
+Les membres écrivent à l'équipe par un salon privé du serveur. Personne n'a besoin d'envoyer un message privé au bot.
+
+```
+/modmail setup set category:Mod-mail staff_role:@Moderator log_channel:#modmail-log anonymous:False
+/modmail setup panel channel:#help text:Press the button to write to the staff
+/modmail setup block member:@User                   # toggles
+/modmail setup status
+
+/modmail send text:I need help with my account     # inside a mod-mail channel
+/modmail close reason:Solved
+
+/appeal setup set main_server_id:123456789012345678 staff_channel:#appeals cooldown_days:7
+/appeal setup set invite:https://discord.gg/example rejoin_invite:https://discord.gg/example
+/appeal setup status
+/appeal send text:I understand the rule now and ask for a second chance
+```
+
+### Salon de comptage, messages épinglés et statistiques
+
+Un jeu de comptage, des messages qui restent en bas d'un salon et des salons qui affichent des chiffres en direct.
+
+```
+/engage counting setup channel:#counting reset_on_fail:True delete_wrong:True
+/engage counting status
+/engage counting set number:100
+/engage counting off
+
+/post sticky set channel:#rules text:Read the rules before you write
+/post sticky list
+/post sticky remove channel:#rules
+
+/server stats create template:Members: {members} category:Statistics
+/server stats add channel:#info template:Boosts: {boosts}
+/server stats list
+/server stats refresh
+/server stats remove channel:#info
+```
+
+### Autres options des fonctions existantes
+
+Ajouts pour les tickets, concours, salons vocaux, XP, anniversaires, sauvegardes, journaux et affichages d'état.
+
+```
+/support ticket claim
+/support ticket rename name:billing-help
+/support ticket list
+
+/engage giveaway cancel giveaway_id:3
+/engage giveaway edit giveaway_id:3 prize:Nitro winners:2 extend:1h
+
+/community voice rename name:Study room                      # only the owner of the room
+/community voice limit limit:4
+/community voice lock
+/community voice unlock
+/community voice kick member:@User
+/community voice transfer member:@User
+/community voice claim                                       # if the owner left
+
+/xp channelboost channel:#chat multiplier:1.5
+/xp resetall confirm:True
+/info leaderboard page:2
+
+/birthday list
+/birthday setup user member:@User day:14 month:3
+/birthday setup clear member:@User
+
+/server backup info name:weekly
+/server log show
+/server log ignorechannel channel:#bots
+/server log ignoreuser user:@Bot
+/server log sent enabled:True
+
+/automod status
+/access verify status
+/security raid status
+/community welcome show
+/engage starboard show
+```
+
+### Autres outils AutoMod
+
+Suivre les liens raccourcis, limiter les liens des nouveaux membres, repérer les ghost pings et tester les règles sans punir personne.
+
+```
+/automod toggle rule:shortlinks enabled:True action:delete    # follow short links and judge the target
+/automod set rule:shortlinks option:resolve value:true         # false = block short links outright
+/automod set rule:shortlinks option:block_unresolved value:false
+/automod add name:shortlink_domains value:example.link
+
+/automod toggle rule:newlinks enabled:True action:delete       # new members may not post links
+/automod set rule:newlinks option:hours value:48
+/automod add name:newlinks_allow value:tenor.com
+
+/automod ghostping enabled:True notify:True max_age:120
+/automod dryrun rule:words enabled:True                        # report only, rule: all, words, caps, phishing, flood ...
+/automod test text:free nitro at bit.ly/example member:@User
+```
+
+### Limites des modérateurs et audit des permissions
+
+Recevoir une alerte quand un modérateur bannit ou expulse trop, et voir quels rôles ont des permissions dangereuses.
+
+```
+/team modwatch status
+/team modwatch limit kind:ban count:5 window:1h                     # count 0 = no limit
+/team modwatch action action:alert notify_owner:False               # alert, timeout, strip, none
+/team modwatch exclude member:@TrustedMod
+
+/team permaudit run                                                  # roles with dangerous permissions and who holds them
+/team permaudit watch enabled:True                                   # alarm when a role or member gets one
+/team permaudit trust role:@Admin
+```
+
+### Signalements et suivi des invitations
+
+Les membres signalent des messages à l'équipe, et le bot enregistre quelle invitation a amené chaque nouveau membre.
+
+```
+/report setup set channel:#reports ping_role:@Moderator cooldown:60 anonymous:False
+/report setup ignorechannel channel:#staff
+/report setup status
+
+/report send message_link:https://discord.com/channels/1/2/3 reason:Spam
+# or right click a message, Apps, Report message
+
+/server invites who member:@User
+/server invites stats user:@User
+/server invites top
+/server invites setup log:True alert_joins:5 alert_minutes:60
+```
+
+### Diagnostic et débogage
+
+Trouver les permissions manquantes et les réglages cassés, recevoir les rapports d'erreur dans un salon et exporter ou importer les réglages.
+
+```
+/server diagnose                                                       # permissions, role order, deleted channels and roles
+/server debug status
+/server debug errorchannel channel:#bot-errors
+/server debug errortest
+/server debug selftest enabled:True                                    # check at start-up
+/server debug usagestats enabled:True
+/server debug usage reset:False
+/server debug level level:DEBUG                                        # owner of the bot only
+/server debug db action:check                                          # owner of the bot only: check, vacuum, size
+
+/admin config export
+/admin config import file:quorvane-settings.json confirm:False        # first without confirm
+```
+
+### Musique
+
+Lit des liens et des fichiers du dossier music dans un salon vocal. Les téléchargements sont enregistrés sous music/Artiste/Album/Titre. ffmpeg et les paquets de requirements.txt sont nécessaires.
+
+```
+/play query:daft punk one more time                            # library first, then the web
+/play query:https://example.com/track                           # a link that yt-dlp supports
+
+/music queue page:1
+/music nowplaying
+/music skip
+/music pause
+/music resume
+/music stop
+/music volume percent:70
+/music loop mode:queue
+/music shuffle
+/music remove number:3
+/music clear
+/music seek position:1:30
+/music join
+/music leave
+
+/music library search query:discovery
+/music library list artist:Daft Punk
+/music library play query:one more time
+/music library scan                                             # after you copied files into music/
+/music library info
+/music library download url:https://example.com/track format:best
+
+/music sources spotify:True apple_music:True tidal:True search:youtube
+/music playlist save name:Evening
+/music playlist play name:Evening shuffle:True
+/music stay enabled:True channel:#Lounge playlist:Evening
+
+/music settings dj_role:@DJ volume:50 max_queue:100 per_user:25 max_minutes:60 idle_leave:120
+/music settings allow_links:True allow_search:True allow_playlists:True library:True
+/music settings allow_download:True download_format:best announce:True
+/admin config set path:music.allowed_hosts value:bandcamp.com,archive.org
+/music cleardj
+/music status
+```
+
+Sans perte : vos propres fichiers (FLAC, WAV, ALAC) et les sources qui proposent du FLAC sont lus tels quels. YouTube, SoundCloud et les sites similaires ne proposent que de l'audio avec perte, qu'on ne peut pas rendre sans perte après coup. Discord transmet la voix en Opus, le bot utilise le débit du salon vocal. Responsabilité : télécharger et lire des contenus peut enfreindre les conditions d'un site ou le droit d'auteur. Les téléchargements sont désactivés par défaut et le module reste désactivé tant que vous ne l'activez pas. L'exploitant du bot est responsable de ce qui est lu et enregistré.
+
+Sources : les liens et recherches YouTube et SoundCloud sont lus directement. Les liens Spotify, Apple Music et Tidal sont aussi acceptés, mais ces services ne fournissent pas leur audio : le bot lit le titre et l'artiste sur la page publique et joue la même chanson depuis la source de recherche (YouTube ou SoundCloud, réglable avec /music sources). Les albums et playlists Spotify et Apple Music sont lus depuis leurs pages publiques ; les albums et playlists Tidal demandent une clé développeur gratuite de developer.tidal.com dans .env (TIDAL_CLIENT_ID et TIDAL_CLIENT_SECRET). Les fichiers de ton dossier de musique sont lus tels quels. Les playlists enregistrées peuvent mélanger toutes les sources, et /music stay garde le bot dans un salon vocal 24 heures sur 24 et joue une playlist en boucle, même après un redémarrage.
+
+Quorvane Music, le second bot : la musique peut tourner sur son propre compte de bot, pour rester en permanence dans un salon vocal sans toucher à la modération.
+
+1. Crée une seconde application dans le Discord Developer Portal, nomme-la Quorvane Music et copie le token de son bot.
+2. Écris le token dans .env sous MUSIC_TOKEN et mets music_bot.enabled à true dans settings.json.
+3. Redémarre Quorvane. Quorvane Music démarre dans le même processus, utilise les mêmes réglages et données, et les commandes de musique passent sur lui.
+4. Ouvre la page Musique du tableau de bord et ajoute Quorvane Music au serveur avec le bouton qui s'y trouve. Sans MUSIC_TOKEN, la musique reste dans Quorvane.
+
+Utilisation à tes propres risques : diffuser depuis YouTube et d'autres services peut enfreindre leurs conditions d'utilisation, et le droit d'auteur s'applique à ce qui est joué. Rien n'est téléchargé depuis Spotify, Apple Music ou Tidal et aucune protection n'est contournée. L'exploitant du bot est responsable de ce qui est joué. La page Musique du tableau de bord affiche le lecteur, la file, les playlists, le mode 24/7, les sources et ce guide.
+
+### Configuration et état de santé
+
+Un assistant guidé configure l'essentiel avec des boutons et des menus : salon de logs, salon de bienvenue, rôles de l'équipe, le goulag, un préréglage AutoMod (souple, normal, strict), un modèle de serveur (communauté, jeux, support) et la langue. /server health montre ce qui est configuré et ce qui reste à faire. La langue change les textes que voient les membres, comme les messages de bienvenue par défaut, les avis d'AutoMod, la vérification, les tickets, les recours, le mod-mail et les menus de rôles. Les réponses fixes aux administrateurs sont traduites, celles qui contiennent des noms et des nombres restent en anglais.
+
+```
+/admin setup                                                         # buttons and menus, nothing is switched off by a template
+/server health                                                        # what is set up, what is open, and the self-test
+/admin language code:de
+```
+
+### Économie
+
+Une monnaie de serveur avec récompense quotidienne, travail, paiements, classement et une boutique dont les articles peuvent donner un rôle. Activez-la avec le module economy. Les commandes fonctionnent aussi avec le préfixe, par exemple !economy daily.
+
+```
+/admin module enable name:economy
+/engage economy balance member:@User                                  # same as !economy
+/engage economy daily
+/engage economy work
+/engage economy pay member:@User amount:50
+/engage economy leaderboard
+/engage economy shop
+/engage economy buy item:1
+/engage economy inventory
+
+/engage economy give member:@User amount:500                          # staff, a negative amount takes away
+/engage economy shopadd name:VIP price:1000 role:@VIP stock:10
+/engage economy shopremove item:1
+/engage economy config name:gold daily:200 daily_hours:24 work_min:20 work_max:80 work_minutes:30
+```
+
+### Menus de rôles, messages programmés et flux
+
+Les menus de rôles donnent des rôles avec des boutons ou une liste déroulante. Les messages programmés sont publiés une fois ou répétés chaque heure, jour ou semaine. Les flux publient les nouvelles vidéos YouTube, les streams Twitch et les éléments RSS. Pour YouTube, utilisez l'ID de la chaîne (il commence par UC). Twitch nécessite TWITCH_CLIENT_ID et TWITCH_CLIENT_SECRET dans le fichier .env. Les heures s'écrivent in 2h, 18:30 ou sous forme de date avec heure comme 2026-12-24 18:00 dans le fuseau horaire du serveur. La première vérification d'un flux mémorise seulement ce qui existe déjà.
+
+```
+/post rolemenu create title:Pick your roles kind:buttons single:False channel:#roles
+/post rolemenu add menu:1 role:@Red label:Red
+/post rolemenu remove menu:1 role:@Red
+/post rolemenu delete menu:1
+/post rolemenu list
+
+/post schedule add channel:#news when:18:30 text:Daily reminder repeat:daily
+/post schedule add channel:#news when:in 2h text:Restart soon repeat:none
+/post schedule list
+/post schedule remove number:1
+/post schedule timezone name:Europe/Berlin
+
+/post feed add kind:youtube target:UCxxxxxxxxxxxxxxxxxxxxxx channel:#videos ping:@Subscribers
+/post feed add kind:twitch target:somestreamer channel:#live
+/post feed add kind:rss target:https://example.com/feed.xml channel:#news
+/post feed list
+/post feed check
+/post feed remove number:1
+```
+
+### Activité, actions groupées et recherche de cas
+
+L'activité compte les messages par salon et les arrivées et départs par jour, jamais le contenu ni les noms. Les actions groupées bannissent, expulsent ou mettent en sourdine jusqu'à 25 utilisateurs après confirmation. Les cas se recherchent par utilisateur, type, nom, motif, modérateur et ancienneté, et peuvent être liés entre eux, par exemple une note à un bannissement.
+
+```
+/admin module enable name:activity
+/community activity overview days:7
+/community activity channels days:30
+/community activity growth days:14
+/community activity reset
+
+/moderation bulk ban users:123456789012345678 223456789012345678 reason:Raid
+/moderation bulk kick users:123456789012345678 223456789012345678 reason:Spam
+/moderation bulk timeout users:123456789012345678 223456789012345678 duration:2h reason:Spam
+
+/moderation cases user:@User kind:ban text:scam moderator:@Mod days:30
+/moderation case link case_id:12 other:15
+/moderation case unlink case_id:12 other:15
+```
+
+### Anti-arnaque et anti-crypto
+
+Supprime les faux concours, comme la fameuse arnaque MrBeast, dans le texte et les images en quelques millisecondes. Les noms de la liste immédiate sont supprimés sur-le-champ, quelle que soit l'orthographe (MrBeast, Mr Beast, M R B E A S T, Mr.B3ast). Sinon, les mots des listes (noms, appâts, crypto, liens, montants) s'additionnent et le message est supprimé au seuil. Les images sont lues par OCR, et une image déjà jugée comme arnaque est supprimée sans être relue. La lecture des images nécessite tesseract, sans lui seul le texte est vérifié. Un serveur consacré à MrBeast peut retirer le nom de la liste immédiate ou exclure des salons avec /automod exemptchannel. Essayez avec /security antiscam test avant de vous y fier.
+
+```
+/security antiscam status
+/security antiscam set action:delete threshold:3 text:True images:True ocr_lang:eng max_images:3
+/security antiscam words action:add kind:instant word:mrbeast
+/security antiscam words action:remove kind:crypto word:token
+/security antiscam test text:MrBeast is giving away 1000 BTC, claim now
+/security antiscam testimage image:scam.png
+/security antiscam forget
+/automod dryrun rule:antiscam enabled:True                     # only report, do not remove
+```
+
+### Période d'essai, détection d'essaim, chronologie et apprentissage
+
+La période d'essai place les nouveaux membres dans un rôle. Tant qu'ils n'ont pas écrit le nombre réglé de messages normaux ou que les minutes ne sont pas écoulées, les liens, invitations et fichiers sont supprimés avec un court avertissement. La protection anti-raid reconnaît aussi un essaim : plusieurs nouveaux comptes avec le même motif de nom, la même photo de profil ou créés à quelques minutes d'intervalle. La chronologie (/moderation case timeline) réunit dans l'ordre du temps la création du compte, l'arrivée et l'invitation, la période d'essai, les cas et les recours d'un utilisateur. Les messages ne sont jamais stockés, ils n'en font donc pas partie. /security block, /security unblock et /security blocklist gèrent la liste de blocage d'AutoMod avec des commandes courtes. Les modérateurs entraînent le module anti-arnaque avec l'entrée de menu contextuel Mark as scam sur un message ou avec une réaction portant l'émoji défini par learn_emoji : le message est supprimé, et ses images et son texte sont ensuite supprimés immédiatement. Chaque partie se désactive avec son module ou ses réglages.
+
+```
+/admin module enable name:probation
+/access probation setup minutes:10 messages:1 block_links:True block_files:True
+/access probation status
+/access probation release member:@User
+/access probation add member:@User
+
+/security raid swarm enabled:True minimum:4 minutes:10
+/moderation case timeline user:@User
+
+/security block kind:link value:evil.example
+/security blocklist
+/security unblock kind:link number:1
+/security antiscam set learn_emoji:X
+```
+
+### Panneaux
+
+Les panneaux sont des publications comme un message de bienvenue, des règles, un choix de rôle, des boutons de notification ou une vérification, avec des bannières, des encadrés de texte et des boutons. On les crée avec `/panel` ou dans le tableau de bord, page Panels. Les images sont envoyées là-bas ou comme options de la commande, et le bot les conserve dans `data/panels` pour qu'elles restent valables.
+
+```
+/panel create name:welcome template:welcome channel:#welcome
+/panel section name:welcome banner:image.png
+/panel section name:welcome number:1 color:#5865f2 thumbnail:logo.png
+/panel create name:origin template:roles
+/panel button name:origin kind:role label:KL role:@KL
+/panel button name:origin kind:role label:Kreis role:@Kreis
+/panel single name:origin value:True
+/panel create name:check template:verify
+/panel button name:welcome kind:link label:Website url:https://example.com
+/panel preview name:welcome
+/panel post name:welcome
+/panel update name:welcome
+/panel list
+/panel show name:welcome
+/panel removesection name:welcome number:2
+/panel removebutton name:origin number:1
+/panel delete name:welcome messages:True
+```
+
+Modèles : empty, welcome, rules, roles, notifications et verify ; leurs textes sont dans la langue du serveur et modifiables. `/panel section` ouvre un formulaire pour le titre, le texte et le pied de page. Chaque section devient un message : la bannière au-dessus de l'encadré, la grande image dedans, la petite image en haut à droite. Les boutons se trouvent sous la dernière section, cinq par ligne. Un bouton de rôle donne le rôle ou le retire ; avec `single`, les autres rôles du panneau sont retirés. Le bouton verify lance la vérification du module de vérification (`/access verify setup` choisit entre bouton, captcha et calcul). Les textes peuvent utiliser `{server}` et `{count}`. `/panel update` modifie les messages publiés après une modification. Limites par serveur : 25 panneaux, 5 sections et 20 boutons par panneau, 40 images de 8 Mo maximum. Le bot ne propose que des rôles situés sous son propre rôle le plus élevé et sans permission dangereuse.
+
+### Skills et IA
+
+Les skills sont des commandes, des jeux et des automatisations qu'un serveur construit lui-même à partir de blocs sûrs. Ils n'ont pas besoin d'IA et ne peuvent jamais exécuter de code. Une IA est facultative : avec ta propre clé, elle écrit un skill à partir d'une description et donne un avis complémentaire dans la vérification anti-scam.
+
+Skills sans IA :
+
+- `/support skill create kind:command name:hello` ouvre une boîte avec un petit exemple à modifier. `/support skill edit`, `show`, `import`, `enable`, `disable`, `delete`, `list` et `stats` les gèrent. Tout le monde utilise un skill avec `/support skill run` ou avec le préfixe, par exemple `!hello`. `/support skill panel` publie des boutons qui lancent des skills.
+- Types : commande (une liste d'actions), jeu (dé, choix, machine à sous, pierre-feuille-ciseaux, quiz) et automatisation (démarre quand un membre arrive ou part, quand un message contient certains mots ou quand un bouton est pressé).
+- Actions : répondre, envoyer dans un salon, message privé, journal, ajouter ou retirer un rôle, modifier un compteur, donner des pièces, choisir au hasard. Une action peut avoir des conditions : possède un rôle, probabilité, compteur comparé à un nombre.
+- Les textes peuvent utiliser `{user}`, `{user_name}`, `{server}`, `{channel}`, `{count}`, `{arg1}`, `{arg2}`, `{var:name}`, `{uvar:name}` et `{random:1-6}`.
+- Limites : 50 skills par serveur, 10 actions par skill, 3 changements de rôle et 4 messages par skill. Le bot n'attribue que des rôles situés sous son propre rôle le plus élevé et sans permission dangereuse. Un skill qui donne des pièces exige un délai d'au moins 60 secondes. Les noms de commandes du bot, d'alias et de tags sont interdits.
+- Les skills sont stockés en JSON et font partie de l'export des paramètres. Les champs inconnus sont refusés : un skill venu de n'importe où ne peut faire que ce que les blocs permettent.
+
+Exemple, une commande qui donne un rôle et compte les utilisations (remplace l'ID du rôle) :
+
+```json
+{
+  "name": "join-team",
+  "kind": "command",
+  "description": "Join the team once",
+  "cooldown": 60,
+  "actions": [
+    {"do": "add_role", "role": 123456789012345678, "if": [{"not": {"has_role": 123456789012345678}}]},
+    {"do": "add_var", "name": "joined", "amount": 1},
+    {"do": "reply", "text": "Welcome, {user}! {var:joined} members joined so far."}
+  ]
+}
+```
+
+Connexion à une IA (facultative) :
+
+- `/support ai setup provider:kimi agree:true` ouvre une boîte privée pour ta clé API. Les fournisseurs sont Anthropic, OpenAI et Kimi (Moonshot). Un modèle est proposé et peut être changé dans la même commande ou dans le tableau de bord ; les noms de modèles évoluent chez les fournisseurs, consulte donc leur documentation. Tu paies ton fournisseur.
+- `/support ai make wish:...` demande un skill à l'IA, vérifie la réponse aussi strictement qu'un skill importé et affiche un aperçu. Rien n'est enregistré avant que tu appuies sur Enregistrer.
+- `/support ai status`, `limits` (requêtes par jour, secondes entre deux requêtes par personne) et `remove` complètent l'ensemble. La clé est stockée chiffrée, le secret se trouve dans le fichier `data/ai.secret`. Conserve ce fichier avec tes sauvegardes ; sans lui, une clé enregistrée est illisible et doit être saisie à nouveau. La clé n'est jamais affichée, journalisée ni exportée. Le fournisseur ne peut changer qu'avec une nouvelle clé : une clé n'est donc jamais envoyée à un autre fournisseur.
+- Ce qui est envoyé : le souhait de `/support ai make` et, pour l'avis complémentaire, le texte d'un message suspect. Rien d'autre, et seulement tant que le module `ai` est activé. Voir [PRIVACY.md](../PRIVACY.md).
+
+Apprentissage de l'anti-scam :
+
+- Le filtre appris (`/security antiscam set learned:true`) est un petit classificateur par serveur. Les modérateurs l'entraînent avec les entrées de menu contextuel « Mark as scam » et « Not a scam ». Il ne stocke que de courts hachages de mots, jamais le texte, n'agit qu'après avoir vu 8 exemples de scam et 30 exemples normaux, puis seulement au-dessus de 95 pour cent. Avec `ham_sampling`, il apprend aussi d'un message normal sur dix.
+- Les images similaires (`similar`, activé par défaut) comparent une empreinte d'image avec des images de scam connues, si bien qu'une copie réenregistrée ou redimensionnée est retrouvée. Cela fonctionne sans Tesseract.
+- Avis complémentaire de l'IA (`/support ai limits second_opinion:true`) : pour les cas juste sous le seuil ou que le filtre appris juge suspects, l'IA est consultée. Un message n'est supprimé que si l'IA répond scam avec au moins 80 pour cent de confiance, et sa réponse ne peut rien déclencher d'autre.
+
+### Créateur de messages et mises à jour
+
+Le créateur de messages publie des messages avec plusieurs embeds et des boutons de lien à partir de JSON. Il lit le JSON qu'exportent les générateurs d'embeds comme Embed Generator : vous concevez un message là-bas et le publiez avec le bot. Fournissez le JSON sous forme de texte, de fichier .json ou de lien https pointant directement vers le JSON, par exemple le fichier brut d'un dépôt (les liens avec redirection sont refusés). Seuls des boutons de lien sont créés, les boutons qui exigent une interaction sont ignorés. Chaque lien doit être http ou https, les mentions dans le texte ne notifient jamais, et les limites de Discord s'appliquent. /post message copy exporte un message existant en JSON, /post message edit modifie un message du bot et /post message preview n'affiche le résultat qu'à vous. Les liens de partage des éditeurs web ne sont pas ouverts, car leur format n'est pas public.
+
+```json
+{
+  "content": "Rules were updated",
+  "embeds": [{"title": "Rules", "description": "Read them here.", "color": "#5865f2"}],
+  "components": [{"type": 1, "components": [{"type": 2, "style": 5, "label": "Open rules", "url": "https://example.com/rules"}]}]
+}
+```
+
+Toutes les 12 heures, le bot vérifie s'il existe une version plus récente dans le dépôt GitHub indiqué par update.repo (défini par scripts/set_repo_url.py). S'il y en a une, le propriétaire du bot reçoit un message privé avec les notes de version, puis la version est téléchargée et vérifiée : somme SHA-256 de la version, chemins sûrs dans l'archive et numéro de version conforme à l'étiquette. Elle s'installe avec /server debug update action:install, ou automatiquement si auto_install est activé. Avant l'installation, les fichiers remplacés sont sauvegardés dans data/update, les nouveaux paquets sont installés et le nouveau code est importé à titre d'essai. En cas d'échec, les anciens fichiers sont restaurés. Votre .env, settings.json, data et music ne sont jamais touchés. Ensuite, le bot redémarre seul. Avec Docker, rien n'est installé sur place, mettez plutôt l'image à jour. Une mise à jour exécute du code du dépôt : ne la dirigez que vers un dépôt de confiance. Désactivez-la avec enabled sur false.
+
+```json
+{
+  "update": {
+    "enabled": true,
+    "repo": "NAME/quorvane",
+    "check_hours": 12,
+    "auto_install": false,
+    "require_checksum": false
+  }
+}
+```
+
+```
+/post message send channel:#news url:https://example.com/message.json
+/post message send channel:#news file:message.json
+/post message preview url:https://example.com/message.json
+/post message edit message:https://discord.com/channels/1/2/3 url:https://example.com/message.json
+/post message copy message:https://discord.com/channels/1/2/3
+/admin module disable name:builder
+/server debug update action:status
+/server debug update action:check
+/server debug update action:install
+```
+
+### Exploitation
+
+Le bot enregistre ses données toutes les quelques secondes et conserve des sauvegardes de la base dans data/dbbackups, une avant chaque changement du format des données et une par jour. La file de musique, les messages épinglés et les compteurs des modérateurs survivent à un redémarrage. Les grands bots peuvent fonctionner sur plusieurs shards. Un fichier heartbeat et une page d'état facultative aident les outils de supervision. Ces options se règlent dans settings.json :
+
+```json
+{
+  "shard_count": null,
+  "message_cache": 10000,
+  "members_intent": true,
+  "chunk_guilds": true,
+  "db_backup_hours": 24,
+  "db_backup_keep": 7,
+  "health_port": 0,
+  "health_host": "127.0.0.1",
+  "metrics_token": "",
+  "log_format": "text",
+  "log_max_mb": 2,
+  "log_backups": 3,
+  "workers": {"ocr": {"threads": 2, "limit": 20}},
+  "tesseract": null,
+  "music_generic": true
+}
+```
+
+```
+/server debug db action:backup                                         # owner of the bot only, saved in data/dbbackups
+/server debug db action:list
+```
+
+Les journaux sont écrits dans data/quorvane.log (avec rotation, voir log_max_mb et log_backups). Avec log_format réglé sur json, chaque ligne est un objet JSON avec le serveur et la commande. Si health_port est défini, /metrics fournit des métriques Prometheus (durée de fonctionnement, latence, mémoire, taille de la base, erreurs, usage et durée des commandes, voies de travail). Seuls des nombres sont exportés, jamais de noms ni d'identifiants, et metrics_token impose un jeton bearer. Les tâches lourdes (lecture d'images, dessin de cartes, fichiers musicaux, sauvegardes) s'exécutent dans des voies avec un nombre fixe de threads et une limite (workers dans settings.json). Quand une voie est pleine, le bot indique qu'il est occupé au lieu d'accumuler du travail. Chaque sauvegarde de la base est ouverte et vérifiée juste après sa création. Pour en restaurer une, arrêtez le bot et exécutez :
+
+```
+python scripts/restore_db.py data/dbbackups/quorvane-YYYYMMDD-HHMMSS-auto.db
+python scripts/restore_db.py BACKUPFILE --check          # only check a backup
+```
+
+La base actuelle est conservée sous forme de sauvegarde nommée before-restore.
+
+### Administration
+
+Activer ou désactiver modules et commandes, changer le préfixe, définir des alias et limiter des commandes à des rôles.
+
+```
+/admin module list
+/admin module disable name:starboard
+/admin module enable name:tickets
+/admin command disable name:ban                          # single commands
+/admin command enable name:ban
+/admin command list
+
+/admin prefix new_prefix:?                               # text commands now start with ?
+/admin alias add alias:w command:warn                    # ?w @User Spam
+/admin alias remove alias:w
+/admin alias list
+
+/admin perms allow command:ban target:@HeadModerator     # only this role may use /moderation ban
+/admin perms deny command:warn target:@Trainee
+/admin perms reset command:ban
+/admin perms show
+
+/admin settings
+/help
+/info about
+```
+
+## Variables dans les messages
+
+Ces variables sont remplacées dans les textes que vous configurez :
+
+```
+/community welcome set        message, dm, goodbye_message    {user} {name} {server} {count}
+/community booster set         message                         {user} {name} {server} {count}
+/xp config           message                         {user} {name} {level}
+/birthday setup set   message                         {user} {name}
+/community tempvoice setup     name                            {name}
+/access jailsetup notice    text                            {staff}
+```
+
+## Configuration
+
+Les options globales se règlent dans settings.json. Tout le reste se configure par serveur avec des commandes comme /admin module, /admin command, /admin perms, /admin alias et /admin config.
+
+Pour renommer une commande, ajoutez-la dans command_names et redémarrez le bot :
+
+```json
+{
+  "prefix": "!",
+  "data_dir": "data",
+  "force_sync": false,
+  "purge_on_guild_leave": false,
+  "command_names": {
+    "warn": "verwarnen",
+    "ban": "sperren"
+  }
+}
+```
+
+Chaque réglage peut être lu et modifié avec /admin config. Voici les chemins que vous utiliserez le plus :
+
+```
+/admin config get path:automod.caps.percent
+/admin config set path:automod.caps.percent value:80
+/admin config set path:mod.dm_user value:false             # no direct message on punishments
+/admin config set path:mod.warn_expiry_days value:30       # warnings expire after 30 days
+/admin config set path:mod.default_mute_minutes value:120
+/admin config set path:automod.mentions.max value:5
+/admin config set path:automod.phishing.lookalike value:true
+/admin config set path:raid.joins value:8
+/admin config set path:xp.cooldown value:45
+/admin config set path:tickets.max_open value:2
+/admin config set path:privacy.retention_days value:90
+/admin config reset section:welcome                        # back to the defaults of one section
+```
+
+## Données et stockage
+
+Tout ce que le bot enregistre se trouve sur votre propre machine :
+
+```
+data/quorvane.db          settings, XP, birthdays and moderation cases (SQLite)
+data/backups/<server>/    backup files (.json.gz)
+settings.json             global options
+.env                      the bot token
+```
+
+## Structure du dépôt
+
+```
+quorvane/
+  main.py                 entry point
+  requirements.txt
+  settings.example.json   global options
+  .env.example            token placeholder
+  quorvane/
+    core.py               bot class, storage, permission checks
+    defaults/             default settings, one file per area (core, security, moderation, community) and base.py for modules and permissions
+    utils.py              helpers
+    images.py             rank cards and captcha images
+    cogs/                 one file per feature, in the folders security, moderation, server, community, tools
+    skills.py             moteur de skills : vérifie et exécute les skills
+    ai.py                 fournisseurs d'IA, clés chiffrées, limites
+    learner.py, imgsim.py filtre appris de l'anti-scam, empreintes d'images
+    dashboard_manage.py   pages du tableau de bord pour commandes, skills, IA et profil
+  docs/                   documentation in 12 languages, COMMANDS.md, PRIVACY.md
+  deploy/                 systemd service, Dockerfile, compose file
+  scripts/                maintenance scripts
+  tests/                  automated tests (python -m unittest)
+  data/                   created at runtime, holds your settings and data
+```
+
+## Traductions
+
+L'anglais est la langue d'origine du projet. Toutes les traductions de la documentation, du tableau de bord et des messages du bot ont été créées par traduction automatique et n'ont pas été vérifiées par des locuteurs natifs. Attendez-vous à des formulations maladroites et à des erreurs, et signalez-les ou envoyez une correction. Les fichiers sont dans docs/ et quorvane/locales/.
+
+## Feuille de route
+
+- Relecture de toutes les traductions par des locuteurs natifs.
+- Davantage de textes de réponse fixes traduits.
+
+## Confidentialité et sécurité
+
+- Aucune télémétrie. Le bot communique avec Discord et, pour la vérification des mises à jour, avec GitHub (aucune donnée personnelle n'est envoyée, désactivez-la avec update.enabled). Les liens que lui donnent les administrateurs, comme les flux, la musique et les liens JSON, ne sont ouverts que sur demande.
+- Toutes les données sont dans le dossier data de votre machine : réglages, XP, anniversaires (jour et mois uniquement) et cas de modération.
+- Le bot ignore les messages privés des membres.
+- Le jeton est lu depuis le fichier .env. Ne le partagez jamais et ne le publiez pas.
+- Les membres peuvent exporter et supprimer leurs propres données avec /info mydata. Les administrateurs définissent combien de temps les données des membres partis sont conservées.
+- Les fonctions d'IA sont désactivées tant que tu n'ajoutes pas ta propre clé. Ensuite, seuls le texte de `/support ai make` et, pour l'avis complémentaire, les messages suspects sont envoyés au fournisseur choisi.
+- [PRIVACY.md](../PRIVACY.md)
+
+## Assistance
+
+Bugs, idées et suggestions : écrivez-moi sur Discord, @justyyin, ou ouvrez une issue sur GitHub.
+
+## Crédits
+
+Quorvane s'inspire d'[Embed Generator](https://github.com/merlinfuchs/embed-generator) de Merlin Fuchs (licence MIT, hébergé sur message.style). Le créateur de messages lit le même format JSON, les messages conçus là-bas peuvent donc être publiés avec ce bot. Aucun code de ce projet n'est inclus. Merci aux auteurs de discord.py, aiohttp, Pillow, yt-dlp, mutagen et Tesseract.
+
+## Licence
+
+Publié sous licence MIT. Voir [LICENSE](../../LICENSE).
+
+Copyright (c) Justyn - made in Germany

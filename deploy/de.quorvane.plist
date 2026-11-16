@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!-- macOS autostart: copy to ~/Library/LaunchAgents/de.quorvane.plist, replace /Users/you/quorvane, then run: launchctl load ~/Library/LaunchAgents/de.quorvane.plist -->
+<plist version="1.0">
+<dict>
+  <key>Label</key><string>de.quorvane</string>
+  <key>WorkingDirectory</key><string>/Users/you/quorvane</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>/Users/you/quorvane/.venv/bin/python</string>
+    <string>main.py</string>
+  </array>
+  <key>RunAtLoad</key><true/>
+  <key>KeepAlive</key><true/>
+  <key>StandardOutPath</key><string>/Users/you/quorvane/data/stdout.log</string>
+  <key>StandardErrorPath</key><string>/Users/you/quorvane/data/stderr.log</string>
+</dict>
+</plist>

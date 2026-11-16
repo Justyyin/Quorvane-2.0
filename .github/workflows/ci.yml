@@ -1,0 +1,31 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python: ["3.11", "3.12", "3.13"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+          cache: pip
+      - name: System packages
+        run: sudo apt-get update && sudo apt-get install -y --no-install-recommends ffmpeg libopus0 tesseract-ocr
+      - name: Install
+        run: pip install -r requirements.txt pyflakes mypy
+      - name: Static check
+        run: python -m pyflakes quorvane tests scripts main.py
+      - name: Types
+        run: python -m mypy
+      - name: Documentation is current
+        run: python scripts/build_reference.py --check
+      - name: Tests
+        run: python -m unittest

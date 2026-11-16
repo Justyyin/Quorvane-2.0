@@ -1,0 +1,285 @@
+# Quorvane: Guia de instalação
+
+Este guia mostra como executar o Quorvane no seu computador ou em um VPS. Leva cerca de 15 minutos.
+
+> Beta: o Quorvane e o seu painel estão em fase beta. Não foram testados a fundo, sobretudo não em servidores grandes nem em todas as situações do Discord. Conte com erros, faça cópias da pasta data e comunique os problemas. Uso por sua conta e risco.
+
+<!-- toc -->
+
+- [Criar o bot do Discord](#criar-o-bot-do-discord)
+- [Executar no seu computador](#executar-no-seu-computador)
+  - [Windows (PowerShell)](#windows-powershell)
+  - [Linux e macOS](#linux-e-macos)
+- [Executar em um VPS](#executar-em-um-vps)
+- [Executar com Docker](#executar-com-docker)
+- [Primeiros passos no Discord](#primeiros-passos-no-discord)
+- [Estrutura, equipa e visão geral (1.5)](#estrutura-equipa-e-visão-geral-15)
+- [Atualizações e backups](#atualizações-e-backups)
+- [Música (opcional)](#música-opcional)
+- [Opcional: ler imagens e idiomas](#opcional-ler-imagens-e-idiomas)
+- [Painel](#painel)
+- [Skills, IA e perfil do bot (opcional)](#skills-ia-e-perfil-do-bot-opcional)
+- [Novo na 1.12: painel de vidro, transcrições, links de golpe](#novo-na-112-painel-de-vidro-transcrições-links-de-golpe)
+- [Solução de problemas](#solução-de-problemas)
+- [Suporte](#suporte)
+
+<!-- tocstop -->
+
+## Criar o bot do Discord
+
+1. Abra o [Discord Developer Portal](https://discord.com/developers/applications) e clique em New Application.
+2. Abra a aba Bot e clique em Reset Token. Copie o token e mantenha-o em segredo.
+3. Na mesma aba, ative Server Members Intent e Message Content Intent.
+4. Abra OAuth2, URL Generator. Selecione os scopes bot e applications.commands.
+5. Selecione as permissões: Manage Roles, Manage Channels, Kick Members, Ban Members, Moderate Members, View Audit Log, Manage Messages, Send Messages, Embed Links, Attach Files, Read Message History, Add Reactions, Move Members. Administrator também funciona e é a opção mais simples.
+6. Abra a URL gerada e adicione o bot ao seu servidor.
+7. Nas configurações do servidor, mova o cargo do bot para o topo da lista de cargos. O bot só pode gerenciar cargos abaixo do seu próprio cargo.
+
+Como alternativa, use esta URL de convite. Substitua YOUR_CLIENT_ID pelo Application ID do Developer Portal:
+
+```
+https://discord.com/oauth2/authorize?client_id=YOUR_CLIENT_ID&scope=bot+applications.commands&permissions=1099797228758
+```
+
+## Executar no seu computador
+
+Instale Python 3.11 ou mais recente e o Git, depois execute estes comandos em um terminal.
+
+### Windows (PowerShell)
+
+```powershell
+git clone https://github.com/Justyyin/Quorvane-2.0.git
+cd quorvane
+py -3 -m venv .venv
+.venv\Scripts\Activate.ps1
+pip install -r requirements.txt
+copy .env.example .env
+notepad .env
+python main.py
+```
+
+### Linux e macOS
+
+```bash
+git clone https://github.com/Justyyin/Quorvane-2.0.git
+cd quorvane
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+cp .env.example .env
+nano .env
+python main.py
+```
+
+Abra o arquivo .env e troque o texto de exemplo pelo token do seu bot. O bot fica online assim que o console mostrar a linha que começa com online as. Mantenha a janela aberta, o bot para quando você a fecha.
+
+## Executar em um VPS
+
+Estes comandos valem para Ubuntu ou Debian e configuram o bot como um serviço que inicia automaticamente.
+
+```bash
+sudo apt update
+sudo apt install -y python3 python3-venv python3-pip git ffmpeg libopus0 ffmpeg libopus0 ffmpeg libopus0 ffmpeg libopus0 ffmpeg libopus0 ffmpeg libopus0
+sudo git clone https://github.com/Justyyin/Quorvane-2.0.git /opt/quorvane
+sudo useradd --system --no-create-home --shell /usr/sbin/nologin quorvane
+cd /opt/quorvane
+sudo python3 -m venv .venv
+sudo .venv/bin/pip install -r requirements.txt
+sudo cp .env.example .env
+sudo nano .env
+sudo mkdir -p data
+sudo chown -R quorvane:quorvane /opt/quorvane
+sudo chmod 600 .env
+sudo cp deploy/quorvane.service /etc/systemd/system/
+sudo systemctl daemon-reload
+sudo systemctl enable --now quorvane
+sudo journalctl -u quorvane -f
+```
+
+Verifique o estado com systemctl status quorvane. O log mostra a linha que começa com online as quando o bot está pronto.
+
+## Executar com Docker
+
+O Docker é opcional. Crie primeiro o arquivo .env e depois execute:
+
+```bash
+docker compose -f deploy/docker-compose.yml up -d --build
+docker compose -f deploy/docker-compose.yml logs -f
+```
+
+## Primeiros passos no Discord
+
+Use estes comandos no seu servidor e troque os nomes dos canais pelos seus.
+
+```
+/server log set category:main channel:#logs
+/access jailsetup setup
+/automod toggle rule:phishing enabled:True action:jail
+/automod toggle rule:words enabled:True
+/automod add name:words value:example
+/security raid setup enabled:True joins:5 seconds:10 action:timeout min_age_days:3
+/security antinuke setup enabled:True action:strip
+/access verify setup channel:#verify mode:captcha timeout_minutes:30
+/community welcome set channel:#welcome message:Welcome {user} to {server}!
+/server backup schedule enabled:True interval_hours:24 keep:7
+/xp config enabled:True
+/admin module list
+```
+
+Todos os recursos estão descritos na referência de comandos: [COMMANDS.md](../COMMANDS.md).
+
+## Estrutura, equipa e visão geral (1.5)
+
+Estes passos configuram as funções mais recentes. Cada uma pode ser desativada com /admin module, e o prefixo e os textos continuam editáveis por servidor.
+
+1. Ver o que está configurado: `/admin module overview` lista cada módulo com o estado e se está configurado. O painel web mostra o mesmo no seu painel de configuração.
+2. Encontrar um comando: `/info find text:ban` procura em todos os comandos por palavra, `/help` mostra os grupos.
+3. Publicar as regras com botão de aceitar: `/structure rules setup`, depois `/structure rules add`, depois `/structure rules post`. Quem não aceitou uma nova versão é lembrado de poucas em poucas horas.
+4. Dizer ao bot quem é da equipa: `/team duty roster`. As listas de pessoal disponível e o encaminhamento de tickets e alertas usam isto.
+5. Arrumar canais inativos: `/structure archive setup`, depois `/structure archive scan`.
+6. Devolver os cargos aos membros que regressam: `/members stickyroles setup`.
+7. Manter os nomes legíveis: `/members nickname setup`, teste com `/members nickname check` antes de `/members nickname scan`.
+8. Antes de grandes alterações, exporte as definições com `/admin config export` e verifique cargos e canais com `/server diagnose`.
+
+## Atualizações e backups
+
+Atualizar o bot:
+
+```bash
+cd /opt/quorvane
+sudo -u quorvane git pull
+sudo .venv/bin/pip install -r requirements.txt
+sudo systemctl restart quorvane
+```
+
+Faça backup das configurações copiando a pasta data, por exemplo:
+
+```bash
+tar czf quorvane-data-$(date +%F).tar.gz data
+```
+
+## Música (opcional)
+
+O módulo de música precisa de ffmpeg no computador onde o bot corre. Coloque a sua música na pasta music/ como Artista/Álbum/01 - Título.flac, ou permita downloads. A pasta pode crescer muito: guarde-a num disco com espaço ou num volume Docker.
+
+```
+# Windows
+winget install Gyan.FFmpeg
+# macOS
+brew install ffmpeg
+# Ubuntu or Debian
+sudo apt install -y ffmpeg libopus0
+
+# in Discord
+/admin module enable name:music
+/music settings allow_download:True
+```
+
+Quorvane Music: para rodar a música em um bot próprio que pode ficar o tempo todo em um canal de voz, crie uma segunda aplicação no Discord Developer Portal, escreva o token dela no .env como MUSIC_TOKEN e defina music_bot.enabled como true no settings.json. Após reiniciar, a página Música do painel mostra um botão que adiciona o Quorvane Music ao servidor. Links do Spotify, Apple Music e Tidal tocam pelo YouTube ou SoundCloud; álbuns e playlists do Tidal também precisam de TIDAL_CLIENT_ID e TIDAL_CLIENT_SECRET no .env. Uso por sua conta e risco, veja a seção Música do README.
+
+## Opcional: ler imagens e idiomas
+
+Para que o módulo anti-burla leia o texto das imagens, instale o tesseract no computador onde o bot corre (a imagem Docker já o inclui). Depois verifique com /security antiscam status se está pronto. Escolha o idioma das mensagens que os membros veem com /admin language.
+
+```
+# Ubuntu or Debian
+sudo apt install -y tesseract-ocr
+# macOS
+brew install tesseract
+# Windows
+winget install UB-Mannheim.TesseractOCR
+
+# in Discord
+/security antiscam status
+/admin language code:de
+```
+
+## Painel
+
+O painel é uma página web que corre dentro do bot. Depois de iniciar sessão com o Discord, altera as definições dos seus servidores com interruptores, menus e campos em vez de comandos: módulos, canais, cargos, limites, textos, o prefixo e o idioma. Mostra também os últimos casos de moderação e exporta e importa definições. Funciona da mesma forma no seu computador e num VPS, e está desligado até o ativar.
+
+1. Abra a sua aplicação no Developer Portal, vá a OAuth2 e copie o Client Secret para o ficheiro .env.
+2. Na mesma página, adicione o endereço de redirecionamento http://localhost:8080/callback.
+3. Ative o painel em settings.json.
+4. Reinicie o bot e abra http://localhost:8080 no navegador. Inicie sessão com o Discord.
+
+```
+DISCORD_TOKEN=your-bot-token
+DISCORD_CLIENT_SECRET=your-oauth2-client-secret
+```
+
+```json
+{
+  "dashboard": {
+    "enabled": true,
+    "host": "127.0.0.1",
+    "port": 8080,
+    "public_url": "http://localhost:8080"
+  }
+}
+```
+
+Deixe host em 127.0.0.1 e escolha um de dois caminhos. Primeiro, um túnel SSH: nada é exposto e abre http://localhost:8080 no seu computador enquanto o túnel estiver ativo.
+
+```bash
+ssh -L 8080:127.0.0.1:8080 user@your-server
+```
+
+Segundo, HTTPS através de um proxy inverso como o Caddy, que obtém o seu próprio certificado (veja deploy/Caddyfile.example). Depois defina public_url com o seu endereço https, adicione https://o-seu-endereco/callback como redirecionamento no Developer Portal e ponha trust_proxy em true:
+
+```
+dashboard.example.com {
+	reverse_proxy 127.0.0.1:8080
+}
+```
+
+```json
+{
+  "dashboard": {
+    "enabled": true,
+    "host": "127.0.0.1",
+    "port": 8080,
+    "public_url": "https://dashboard.example.com",
+    "trust_proxy": true
+  }
+}
+```
+
+## Skills, IA e perfil do bot (opcional)
+
+As skills só precisam do bot: comece com `/support skill create`. Para a IA você precisa de uma conta e de uma chave de API na Anthropic, OpenAI ou Kimi (Moonshot); execute `/support ai setup` e cole a chave na caixa privada. Guarde o arquivo `data/ai.secret` junto com os seus backups. O nome, a imagem e o banner do bot são alterados no painel, em Perfil do bot; para alterá-los em todos os lugares, adicione o seu ID do Discord como `owner_ids` em `settings.json` (ou seja o proprietário do aplicativo). Os detalhes estão no README, seção Skills e IA.
+
+## Novo na 1.12: painel de vidro, transcrições, links de golpe
+
+O painel usa um design de vidro que segue o modo claro ou escuro do seu dispositivo: uma barra superior flutuante, uma barra estreita de ícones que se abre no menu completo e um painel principal. Em Configurações, Aparência do painel, você escolhe uma predefinição (Claro, Fosco, Sólido) ou ajusta desfoque, opacidade, saturação, luz da borda e tonalidade.
+
+Tickets e mod-mail fechados são salvos em um único arquivo HTML que abre em qualquer navegador e não precisa de internet. A cópia da equipe no canal de registro contém as notas escritas com `/support ticket note`; a cópia do membro nunca. `/support ticket close` aceita um motivo opcional.
+
+O anti-golpe verifica os links primeiro: links que imitam o Discord ou a Steam e links de IP logger (Grabify, IPLogger e outros) são apagados na hora. A ação padrão agora é o gulag; servidores que já guardaram outra ação a mantêm até você mudar. Cópias que o mesmo membro publicou em outros canais em três minutos também são removidas.
+
+A página Registros do painel mostra o que o bot escreve nos canais de registro: mensagens, membros, moderação, segurança, voz e servidor, com busca, filtro por tipo e visão ao vivo. Moderadores e acima podem ler. As entradas ficam 30 dias em `data/logbook.db` (opções de registro) e são removidas com os comandos de privacidade. Com uma chave de IA, a equipe pode perguntar ao bot em palavras comuns: mencioná-lo no início de uma mensagem ou usar `/support ai ask`, por exemplo "como está o servidor?". O assistente apenas lê, por ferramentas fixas (saúde, módulos, casos, segurança, tickets, atividade, registros), e cada pergunta aparece nos registros com as ferramentas usadas.
+
+**Novo na 2.0**
+
+- Painel de vidro com interruptor claro/escuro, uma página Registros com visão ao vivo, busca, filtro por data e exportação CSV, uma página Membros, transcrições de tickets guardadas e casos editáveis.
+- Assistente: a equipe pergunta em palavras comuns no Discord ou no painel. Ele responde com ferramentas somente de leitura, pode ler o Railway, um repositório do GitHub e endereços web quando você os conecta, e só executa uma ação depois que um membro da equipe confirma com um botão.
+- O anti-golpe remove na hora links falsos do Discord e da Steam, links de IP logger, códigos QR que levam a eles e imagens de golpe publicadas como link. A ação padrão é o gulag, cópias em outros canais são apagadas e os servidores do seu bot podem compartilhar uma lista de contas pegas.
+- Ferramentas de canal: um tópico sob cada mensagem, canais somente para imagens e links, publicação automática de anúncios e `/structure solved` para posts de fórum.
+- Imagem de boas-vindas, ranking de tempo de voz com `/info voicetop` e tradução com `/support translate` ou com o botão direito.
+- Uma API somente de leitura com token, para que outros programas leiam os números e os registros de um servidor.
+
+## Solução de problemas
+
+- Os comandos slash não aparecem: aguarde alguns minutos, reinicie o Discord e confira se o bot foi convidado com o scope applications.commands.
+- O bot para com um erro de intents privilegiados: ative Server Members Intent e Message Content Intent no Developer Portal.
+- Improper token: copie o token novamente e confira se o .env contém exatamente DISCORD_TOKEN=token, sem espaços nem aspas.
+- I cannot assign that role: mova o cargo do bot para acima do cargo que ele deve gerenciar.
+- Nada é registrado: defina um canal com /server log set e confira se o bot pode enviar mensagens, incorporar links e anexar arquivos nele.
+- Unknown timezone: execute pip install tzdata e reinicie o bot.
+- Algo falha sem motivo visível: erros e avisos são escritos no console. Em um VPS, leia-os com journalctl -u quorvane -f.
+
+## Suporte
+
+Bugs, ideias e sugestões: Discord @justyyin ou uma issue no GitHub.
+
+Copyright (c) Justyn - made in Germany
